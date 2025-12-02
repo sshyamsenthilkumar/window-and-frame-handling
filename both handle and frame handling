@@ -1,0 +1,31 @@
+package automation;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import java.util.Set;
+
+public class FramesHandling {
+
+	public static void main(String[] args) throws InterruptedException {
+		String url="https://www.tutorialspoint.com/selenium/practice/frames.php";
+		WebDriver browser=new ChromeDriver();
+		browser.manage().window().maximize();
+		browser.get(url);
+		Set<String> allHandles = browser.getWindowHandles();
+		for(String childWindow : allHandles) {
+		Object parentWindow = null;
+		  if(!childWindow.equals(parentWindow)) {// if current handle is not equal to parent window handle
+	    browser.switchTo().window(childWindow);
+		System.out.println("Child Window:  "+ childWindow);
+		System.out.println("Child Window Title:  "+ browser.getTitle());
+		  //break;
+		WebElement frame = browser.findElement(By.id("frame1"));// locating frame using id
+		browser.switchTo().frame(frame);// switching frame using id
+		browser.findElement(By.id("accordionExample")).click();
+		browser.switchTo().defaultContent();// switching back to main page from frame
+		String msg =browser.findElement(By.xpath("//a[text()='logo display']")).getText();
+		
+		System.out.println (msg);
+		}
+}
