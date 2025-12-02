@@ -1,0 +1,29 @@
+    Window Handling
+   
+package automation;
+import org.openqa.selenium.WebDriver;//importing webdriver interface
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.By;
+import java.util.Set;
+
+public class Windowhandling {
+
+	public static void main(String[] args) {
+
+		String url="https://vinothqaacademy.com/multiple-windows/";
+		WebDriver browser=new ChromeDriver();
+		browser.get(url);
+		String parentWindow = browser.getWindowHandle();
+		browser.findElement(By.id("button1")).click();
+		Set<String> allHandles = browser.getWindowHandles();
+		for(String childWindow : allHandles) {
+			if(!childWindow.equals(parentWindow)) {// if current handle is not equal to parent window handle
+				browser.switchTo().window(childWindow);
+				System.out.println("Child Window:  "+ childWindow);
+				System.out.println("Child Window Title:  "+ browser.getTitle());
+				//break;
+				
+			}
+		}
+	}
+}
